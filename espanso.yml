@@ -70,11 +70,3 @@ matches:
 
   - trigger: "bespr."
     replace: "Besprechung"
-
-  - trigger: ":sop"
-    replace: "root@sophie.intra.bpm.ch:"
-  - trigger: "bespr."
-    replace: "Besprechung"
-
-  - trigger: ":sop"
-    replace: "root@sophie.intra.bpm.ch:"

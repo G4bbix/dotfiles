@@ -113,7 +113,6 @@ alias lt='ls -latr'
 alias lh='ls -lah'
 alias md='mkdir -p'
 alias vi='vim'
-alias s="ssh root@sophie.intra.bpm.ch"
 alias hex2dec="bxc -B 16 -b 10"
 alias dec2hex="bxc -B 10 -b 16"
 alias spotify="screen -d -m spotify --force-device-scale-factor=1.5 ; bash"
