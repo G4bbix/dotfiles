@@ -5,6 +5,7 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-syntastic/syntastic'
+Plug 'tpope/vim-commentary'
 call plug#end()
 
 let g:airline_theme = "badwolf"
