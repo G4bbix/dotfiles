@@ -6,6 +6,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-commentary'
+Plug 'mattn/emmet-vim'
 call plug#end()
 
 let g:airline_theme = "badwolf"
@@ -22,6 +23,7 @@ set history=1000
 set undolevels=1000
 set hidden
 set number
+set relativenumber
 set laststatus=2
 set backspace=indent,eol,start
 set shiftwidth=2
