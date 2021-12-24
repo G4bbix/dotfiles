@@ -193,8 +193,8 @@ bar {
   playerctl.layout="playerctl.song"
 }
 
-# CUSTOM
-exec_always --no-startup-id setxkbmap ch de_nodeadkeys , numpad:microsoft -model pc105
+# Keyboard
+exec_always --no-startup-id numlockx onumlockx onn
 
 # Prevent screens from sleeping
 exec --no-startup-id "xset s 0 0 -dpms"
