@@ -40,9 +40,6 @@ set $refresh_i3status killall -SIGUSR1 i3status
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
-
 # kill focused window
 bindsym $mod+Shift+q kill
 
@@ -178,6 +175,7 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
   status_command bumblebee-status -m \
+  network_traffic \
   playerctl \
   load \
   memory \
@@ -190,11 +188,10 @@ bar {
   -p \
   nic.states=^down \
   datetime.format="%a %d %b %H:%M:%S" \
-  playerctl.layout="playerctl.song"
+  playerctl.layout="playerctl.song" \
+  -t night-powerline
 }
-
-# Keyboard
-exec_always --no-startup-id numlockx onumlockx onn
+exec --no-startup_id setxkbmap ch de_nodeadkeys , numpad:microsoft -model pc105
 
 # Prevent screens from sleeping
 exec --no-startup-id "xset s 0 0 -dpms"
@@ -211,3 +208,6 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume alsa_out
 # Brightness control
 bindsym $mod+c exec /usr/local/bin/brightness.sh +0.1
 bindsym $mod+x exec /usr/local/bin/brightness.sh -0.1
+
+# alacritty as default
+bindsym $mod+Return exec alacritty
