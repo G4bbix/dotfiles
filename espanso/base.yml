@@ -74,6 +74,8 @@ matches:
     replace: apache2ctl configtest && systemctl restart apache2
   - trigger: ":atl"
     replace: apache2ctl configtest && systemctl reload apache2
+  - trigger: ":por"
+    replace: systemctl restart postfix
   - trigger: bespr.
     replace: Besprechung
   - trigger: ":sop"
@@ -82,3 +84,6 @@ matches:
     replace: "@Dispatcher: Bitte zuweisen"
   - trigger: ":br"
     replace: "/usr/local/system/scripts/backupReport/backupReport.sh -o html -f /srv/www/htdocs/backups/ -k 7 -s"
+  - trigger: ":jrnl"
+    replace: '/usr/local/nagios/plugins/bpm/check_long_running_procs.sh -C cache -w 86400 -c 86400 && find -type f -regextype egrep -regex ".*[0-9]{8}\.[0-9]{3}" -ctime +1 -delete'
+
