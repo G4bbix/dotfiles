@@ -190,6 +190,11 @@ bar {
   datetime.format="%a %d %b %H:%M:%S" \
   playerctl.layout="playerctl.song" \
   -t night-powerline
+  colors {
+    inactive_workspace #333333 #333333 #ffffff
+    background #000000
+    focused_workspace   #d8b666 #d8b666 #000000
+  }
 }
 exec --no-startup-id "setxkbmap -layout ch -variant de_nodeadkeys  -model pc105"
 
@@ -211,3 +216,10 @@ bindsym $mod+x exec /usr/local/bin/brightness.sh -0.1
 
 # alacritty as default
 bindsym $mod+Return exec alacritty
+
+# Disable scroll on titlebar
+bindsym button4 nop
+bindsym button5 nop
+
+# class                 border|backgr|text|indicator|child_border
+client.focused          #000000 #d8b666 #000000
