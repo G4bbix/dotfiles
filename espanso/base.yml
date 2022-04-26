@@ -84,6 +84,7 @@ matches:
     replace: "@Dispatcher: Bitte zuweisen"
   - trigger: ":br"
     replace: "/usr/local/system/scripts/backupReport/backupReport.sh -o html -f /srv/www/htdocs/backups/ -k 7 -s"
-  - trigger: ":jrnl"
-    replace: '/usr/local/nagios/plugins/bpm/check_long_running_procs.sh -C cache -w 86400 -c 86400 && find -type f -regextype egrep -regex ".*[0-9]{8}\.[0-9]{3}" -ctime +1 -delete'
-
+  - trigger: ":lsm"
+    replace: "/var/log/system/manager/tar2tape/"
+  - trigger: ":st"
+    replace: "spotify ; teams"
