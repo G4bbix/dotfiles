@@ -7,6 +7,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-commentary'
 Plug 'mattn/emmet-vim'
+Plug 'lilydjwg/colorizer'
+Plug 'jiangmiao/auto-pairs'
 call plug#end()
 
 let g:airline_theme = "badwolf"
@@ -35,8 +37,6 @@ set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
 
 " Filetype specific settings
-autocmd FileType bash,sh setlocal commentstring=#\ %s
-
 autocmd FileType python,bash,sh setlocal commentstring=#\ %s
 autocmd FileType python set shiftwidth=4
 autocmd FileType python set softtabstop=4
@@ -53,7 +53,7 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_python_python_exec = 'python3'
 let g:syntastic_python_checkers = ['pylint']
-let g:syntastic_go_checkers = ['golint']
+let g:syntastic_go_checkers = ['golangci_lint']
 let g:syntastic_bash_checkers = ['shellcheck']
 
 " Custom bindings
@@ -72,9 +72,29 @@ function! DoAutoPep8()
   silent %!autopep8 -aa -
 endfunction
 
+function! DoJqPrettifying()
+  silent :%!jq '.'
+endfunction
+
+function! ToggleNumbering()
+  if g:numbersOn == 1
+    let g:numbersOn = 0
+    silent :set nonumber
+    silent :set norelativenumber
+  else
+     let g:numbersOn = 1
+    silent :set number
+    silent :set relativenumber
+  endif
+endfunction
+
 " Keybindings for custom functions
 command! PXML call DoPrettyXML()
 command! PEP8 call DoAutoPep8()
+command! PJSON call DoJqPrettifying()
+
+let g:numbersOn = 1
+nmap <silent> ,nn :call ToggleNumbering()<CR>
 
 " from https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vi
 function! GetCharCode()
