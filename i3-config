@@ -193,7 +193,7 @@ bar {
   colors {
     inactive_workspace #333333 #333333 #ffffff
     background #000000
-    focused_workspace   #d8b666 #d8b666 #000000
+    focused_workspace   #ff8c00 #ff8c00 #000000
   }
 }
 exec --no-startup-id "setxkbmap -layout ch -variant de_nodeadkeys  -model pc105"
@@ -222,4 +222,4 @@ bindsym button4 nop
 bindsym button5 nop
 
 # class                 border|backgr|text|indicator|child_border
-client.focused          #000000 #d8b666 #000000
+client.focused          #000000 #ff8c00 #000000
