@@ -88,3 +88,7 @@ matches:
     replace: "/var/log/system/manager/tar2tape/"
   - trigger: ":st"
     replace: "spotify ; teams"
+  - regex: ":ndz(?P<person>.*);"
+    replace: |-
+      @{{person}}: Bitte keine Vorgänge direkt an mich zuweisen.
+      Ich entferne mich hier wieder. Bitte solche Anfragen dem entsprechenden Dispatcher zuweisen. Danke.
