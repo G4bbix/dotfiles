@@ -8,7 +8,6 @@ Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-commentary'
 Plug 'mattn/emmet-vim'
 Plug 'lilydjwg/colorizer'
-Plug 'jiangmiao/auto-pairs'
 call plug#end()
 
 let g:airline_theme = "badwolf"
@@ -88,6 +87,16 @@ function! ToggleNumbering()
   endif
 endfunction
 
+function! ToggleWrapping()
+  if g:wrapOn == 1
+    let g:wrapOn = 0
+    silent :set wrap
+  else
+     let g:wrapOn = 1
+    silent :set nowrap
+  endif
+endfunction
+
 " Keybindings for custom functions
 command! PXML call DoPrettyXML()
 command! PEP8 call DoAutoPep8()
@@ -95,6 +104,9 @@ command! PJSON call DoJqPrettifying()
 
 let g:numbersOn = 1
 nmap <silent> ,nn :call ToggleNumbering()<CR>
+
+let g:wrapOn = 1
+nmap <silent> ,ww :call ToggleWrapping()<CR>
 
 " from https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vi
 function! GetCharCode()
