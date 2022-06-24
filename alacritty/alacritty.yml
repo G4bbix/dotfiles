@@ -1,0 +1,11 @@
+import:
+  - ~/.config/alacritty/gruvbox_material.yml
+
+hints:
+  enabled:
+    - regex: '*'
+      action: Copy
+      post_processing: false
+      binding:
+        key: Insert
+        mods: Control
