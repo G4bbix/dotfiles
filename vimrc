@@ -1,5 +1,3 @@
-color codedark
-
 call plug#begin('~/.vim/plugged')
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'vim-airline/vim-airline'
@@ -8,9 +6,21 @@ Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-commentary'
 Plug 'mattn/emmet-vim'
 Plug 'lilydjwg/colorizer'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'sainnhe/gruvbox-material'
 call plug#end()
 
-let g:airline_theme = "badwolf"
+" Colors
+if has('termguicolors')
+  set termguicolors
+endif
+set background=dark
+
+let g:airline_theme = 'gruvbox_material'
+let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_better_performance = 1
+colorscheme gruvbox-material
+
 let g:airline_section_y = '%{GetCharCode()}'
 
 let mapleader=","
@@ -144,12 +154,12 @@ endfunction
 
 " Prevent replace mode
 function s:ForbidReplace()
-    if v:insertmode isnot# 'i'
-        call feedkeys("\<Insert>", "n")
-    endif
+  if v:insertmode isnot# 'i'
+    call feedkeys("\<Insert>", "n")
+  endif
 endfunction
 augroup ForbidReplaceMode
-    autocmd!
-    autocmd InsertEnter  * call s:ForbidReplace()
-    autocmd InsertChange * call s:ForbidReplace()
+  autocmd!
+  autocmd InsertEnter  * call s:ForbidReplace()
+  autocmd InsertChange * call s:ForbidReplace()
 augroup END
