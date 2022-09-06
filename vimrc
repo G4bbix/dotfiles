@@ -8,6 +8,7 @@ Plug 'mattn/emmet-vim'
 Plug 'lilydjwg/colorizer'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'sainnhe/gruvbox-material'
+Plug 'tpope/vim-sensible'
 call plug#end()
 
 " Colors
@@ -15,7 +16,6 @@ if has('termguicolors')
   set termguicolors
 endif
 set background=dark
-
 let g:airline_theme = 'gruvbox_material'
 let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_better_performance = 1
@@ -24,6 +24,8 @@ colorscheme gruvbox-material
 let g:airline_section_y = '%{GetCharCode()}'
 
 let mapleader=","
+
+runtime! plugin/sensible.vim
 
 set nowrap
 set autoindent
@@ -44,6 +46,7 @@ set tabstop=2
 set expandtab
 set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
+set scrolloff=5
 
 " Filetype specific settings
 autocmd FileType python,bash,sh setlocal commentstring=#\ %s
@@ -66,6 +69,8 @@ let g:syntastic_go_checkers = ['golangci_lint']
 let g:syntastic_bash_checkers = ['shellcheck']
 
 " Custom bindings
+
+" Change page{up,down} to ctrl + {u,p}
 map <PageUp> <C-U>
 map <PageDown> <C-D>
 imap <PageUp> <C-O><C-U>
@@ -133,7 +138,7 @@ function! GetCharCode()
   let nrformat = '0x%04x'
 
   let encoding = "utf-8" 
-  "= '' ? &enc : &fenc)
+  " let encoding = '' ? &enc : &fenc)
 
   if encoding == 'utf-8'
     " Zero pad with 2 zeroes in unicode files
