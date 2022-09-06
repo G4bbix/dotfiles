@@ -75,7 +75,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-# bindsym $mod+h split h
+bindsym $mod+h split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -195,6 +195,9 @@ bar {
     background #000000
     focused_workspace   #ff8c00 #ff8c00 #000000
   }
+  # disable scrolling through windows
+  bindsym button4 nop
+  bindsym button5 nop
 }
 exec --no-startup-id "setxkbmap -layout ch -variant de_nodeadkeys  -model pc105"
 
@@ -223,3 +226,9 @@ bindsym button5 nop
 
 # class                 border|backgr|text|indicator|child_border
 client.focused          #000000 #ff8c00 #000000
+
+# global push-to-talk
+bindsym Super_R exec "pactl set-source-mute @DEFAULT_SOURCE@ off"
+bindsym --release Super_R exec "pactl set-source-mute @DEFAULT_SOURCE@ on"
+
+bindsym $mod+Print exec "flameshot gui --path /home/gabriel/Pictures/screenshots"
