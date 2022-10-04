@@ -9,6 +9,9 @@ Plug 'lilydjwg/colorizer'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'sainnhe/gruvbox-material'
 Plug 'tpope/vim-sensible'
+Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
+Plug 'ervandew/supertab'
+Plug 'pearofducks/ansible-vim'
 call plug#end()
 
 " Colors
@@ -48,6 +51,8 @@ set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
 set scrolloff=5
 
+au BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
+
 " Filetype specific settings
 autocmd FileType python,bash,sh setlocal commentstring=#\ %s
 autocmd FileType python set shiftwidth=4
@@ -67,6 +72,12 @@ let g:syntastic_python_python_exec = 'python3'
 let g:syntastic_python_checkers = ['pylint']
 let g:syntastic_go_checkers = ['golangci_lint']
 let g:syntastic_bash_checkers = ['shellcheck']
+
+" shfmt config
+let g:shfmt_extra_args = '-i 2'
+if executable('shfmt')
+  let &l:formatprg='shfmt -i 2' . &l:shiftwidth . ' -sr -ci -s'
+endif
 
 " Custom bindings
 
