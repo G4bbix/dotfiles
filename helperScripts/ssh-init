@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -euo pipefail
+
+SSH_AUTH_SOCK="$HOME/.ssh/ssh-agent.socket"
+SSH_AGENT_PID="$(ssh-agent -a "$SSH_AUTH_SOCK" | tail -n 1 | grep -oE "[0-9]+")"
+ssh-add
+export SSH_AGENT_PID

@@ -8,7 +8,7 @@ export ZSH="/home/gabriel/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="tonotdo"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -60,7 +60,7 @@ ZSH_THEME="robbyrussell"
 # "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
+HIST_STAMPS="dd.mm.yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -102,18 +102,27 @@ source $ZSH/oh-my-zsh.sh
 
 # MAUNAL GW SETTINGS
 set bell-style none
-ZSH_THEME="aussiegeek"
 bindkey '^R' history-incremental-search-backward
 autoload -U colors && colors
-PS1="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~ %{$reset_color%}%% "
 
 # Custom keymappings
-alias l='ls -la'
-alias lt='ls -latr'
-alias lh='ls -lah'
+alias l='lsd -la'
+alias lt='lsd -latr'
+alias lh='lsd -lah'
 alias md='mkdir -p'
 alias vi='vim'
+alias t="LANG=de_DE@euro /usr/bin/gnome-terminal"
+alias s="ssh root@sophie.intra.bpm.ch"
 alias hex2dec="bxc -B 16 -b 10"
 alias dec2hex="bxc -B 10 -b 16"
-alias spotify="screen -d -m spotify --force-device-scale-factor=1.5 ; bash"
-alias pylint="pylint --rcfile=~/.config/pylintrc bxc.py"
+alias spotify="screen -d -m spotify --force-device-scale-factor=1.5"
+alias teams="teams -disable-features=HardwareMediaKeyHandling"
+alias pylint="pylint --rcfile=~/.config/pylintrc"
+
+export MCFLY_LIGHT=FALSE
+eval "$(mcfly init zsh)"
+
+SSH_AUTH_SOCK="$HOME/.ssh/ssh-agent.socket"
+export SSH_AUTH_SOCK
+SSH_AGENT_PID="$(pgrep -f "ssh-agent -a $HOME/.ssh/ssh-agent.socket" 2> /dev/null)"
+export SSH_AGENT_PID
