@@ -12,6 +12,9 @@ Plug 'tpope/vim-sensible'
 Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
 Plug 'ervandew/supertab'
 Plug 'pearofducks/ansible-vim'
+Plug 'fadein/vim-FIGlet'
+Plug 'evansalter/vim-checklist'
+Plug 'Raimondi/delimitMate'
 call plug#end()
 
 " Colors
@@ -72,12 +75,15 @@ let g:syntastic_python_python_exec = 'python3'
 let g:syntastic_python_checkers = ['pylint']
 let g:syntastic_go_checkers = ['golangci_lint']
 let g:syntastic_bash_checkers = ['shellcheck']
+let g:syntastic_ansible_chchers = ['ansible-lint']
 
 " shfmt config
 let g:shfmt_extra_args = '-i 2'
 if executable('shfmt')
   let &l:formatprg='shfmt -i 2' . &l:shiftwidth . ' -sr -ci -s'
 endif
+
+let g:use_FIGlet_as_operatorfunc = 1
 
 " Custom bindings
 
@@ -179,3 +185,13 @@ augroup ForbidReplaceMode
   autocmd InsertEnter  * call s:ForbidReplace()
   autocmd InsertChange * call s:ForbidReplace()
 augroup END
+
+" Checkboxen
+nnoremap <leader>ct :ChecklistToggleCheckbox<cr>
+nnoremap <leader>ce :ChecklistEnableCheckbox<cr>
+nnoremap <leader>cd :ChecklistDisableCheckbox<cr>
+vnoremap <leader>ct :ChecklistToggleCheckbox<cr>
+vnoremap <leader>ce :ChecklistEnableCheckbox<cr>
+vnoremap <leader>cd :ChecklistDisableCheckbox<cr>
+nnoremap <leader>cc :s/^\(\s*\)/\1[ ] /g<cr>:noh<cr>
+noremap <leader>cc :s/^\(\s*\)/\1[ ] /g<cr>:noh<cr>
