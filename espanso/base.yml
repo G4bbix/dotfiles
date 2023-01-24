@@ -29,7 +29,7 @@ matches:
     replace: Bitte stichprobenartig prüfen.
   - trigger: ":lorem"
     replace: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-  - regex: ":close\\((?P<person>.*)\\)"
+  - regex: ":close(?P<person>.*);"
     replace: |-
       Guten Tag {{person}}
       
@@ -40,7 +40,7 @@ matches:
       
       bpm consult ag
       Gabriel Winkler
-  - regex: ":bclose\\((?P<person>.*)\\)"
+  - regex: ":bclose(?P<person>.*);"
     replace: |-
       Guten Tag {{person}}
       
@@ -74,6 +74,8 @@ matches:
     replace: apache2ctl configtest && systemctl restart apache2
   - trigger: ":atl"
     replace: apache2ctl configtest && systemctl reload apache2
+  - trigger: ":dor"
+    replace: systemctl restart dovecot
   - trigger: ":por"
     replace: systemctl restart postfix
   - trigger: bespr.
@@ -86,9 +88,44 @@ matches:
     replace: "/usr/local/system/scripts/backupReport/backupReport.sh -o html -f /srv/www/htdocs/backups/ -k 7 -s"
   - trigger: ":lsm"
     replace: "/var/log/system/manager/tar2tape/"
-  - trigger: ":st"
+  - trigger: ";st"
     replace: "spotify ; teams"
   - regex: ":ndz(?P<person>.*);"
     replace: |-
       @{{person}}: Bitte keine Vorgänge direkt an mich zuweisen.
       Ich entferne mich hier wieder. Bitte solche Anfragen dem entsprechenden Dispatcher zuweisen. Danke.
+  - trigger: ":rck"
+    replace: "Vielen Dank für Ihre prompte Rückmeldung."
+  - trigger: "bspw."
+    replace: "Beispielsweise"
+  - trigger: ":::"
+    replace: "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
+  - trigger: ":lg"
+    replace: "Liebe Grüsse\nbpm consult ag\nGabriel Winkler"
+  - trigger: ":347"
+    replace: "Aufgabenorganisation, Standup, Zeiten buchen"
+  - trigger: ":bst"
+    replace: 'vi "$(uuidgen | tr -d -).bst"'
+  - trigger: ":foa"
+    replace: "Sollten Sie Fragen oder Anmerkungen haben, melden Sie sich ungeniert!"
+  - regex: ":plan(?P<days>.*);"
+    replace: "{{ output }}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: for i in {0..{{ days }}}; do date -d "+$i days" +"%a %d.%m"  ; done
+  - regex: ":xplan(?P<days>.*);"
+    replace: "{{ output }}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: for i in {0..{{ days }}}; do date -d "+$i days" +"%a %d.%m" ; done | grep -vE "Sa|So"
+  - trigger: :uts
+    replace: "{{ output }}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: date +%s
