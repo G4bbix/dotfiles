@@ -2,7 +2,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-syntastic/syntastic'
+Plug 'dense-analysis/ale'
 Plug 'tpope/vim-commentary'
 Plug 'mattn/emmet-vim'
 Plug 'lilydjwg/colorizer'
@@ -15,6 +15,7 @@ Plug 'pearofducks/ansible-vim'
 Plug 'fadein/vim-FIGlet'
 Plug 'evansalter/vim-checklist'
 Plug 'Raimondi/delimitMate'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 call plug#end()
 
 " Colors
@@ -68,20 +69,28 @@ autocmd FileType css,scss,js setlocal commentstring=//\ %s
 autocmd Filetype html,xml set listchars-=tab:>.
 autocmd Filetype html setlocal commentstring=<!--\ %s\ -->
 
-" Syntastic
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_python_python_exec = 'python3'
-let g:syntastic_python_checkers = ['pylint']
-let g:syntastic_go_checkers = ['golangci_lint']
-let g:syntastic_bash_checkers = ['shellcheck']
-let g:syntastic_ansible_chchers = ['ansible-lint']
+" ALE
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'python': ['autopep8'],
+\   'sh': ['shfmt']
+\ }
+let g:ale_fix_on_save = 1
+
+let g:ale_linters = {
+\   'javascript': ['golangci-lint'],
+\   'python': ['pylint'],
+\   'sh': ['shellcheck'],
+\   'yaml.ansible': ['ansible-lint']
+\ }
 
 " shfmt config
 let g:shfmt_extra_args = '-i 2'
 if executable('shfmt')
   let &l:formatprg='shfmt -i 2' . &l:shiftwidth . ' -sr -ci -s'
 endif
+
+let g:ansible_unindent_after_newline = 1
 
 let g:use_FIGlet_as_operatorfunc = 1
 
@@ -154,7 +163,7 @@ function! GetCharCode()
   " Zero pad hex values
   let nrformat = '0x%04x'
 
-  let encoding = "utf-8" 
+  let encoding = "utf-8"
   " let encoding = '' ? &enc : &fenc)
 
   if encoding == 'utf-8'
