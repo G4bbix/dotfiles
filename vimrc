@@ -4,18 +4,28 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'dense-analysis/ale'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
 Plug 'mattn/emmet-vim'
 Plug 'lilydjwg/colorizer'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'sainnhe/gruvbox-material'
 Plug 'tpope/vim-sensible'
 Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
-Plug 'ervandew/supertab'
 Plug 'pearofducks/ansible-vim'
 Plug 'fadein/vim-FIGlet'
 Plug 'evansalter/vim-checklist'
 Plug 'Raimondi/delimitMate'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'bounceme/poppy.vim',
+Plug 'machakann/vim-highlightedyank',
+Plug 'liuchengxu/vista.vim',
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' },
+Plug 'ron-rs/ron.vim',
+
+" COC
+Plug 'neoclide/coc.nvim', {'branch': 'release'},
+Plug 'yaegassy/coc-ansible', {'do': 'yarn install --frozen-lockfile'},
+Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'},
 call plug#end()
 
 " Colors
@@ -28,7 +38,29 @@ let g:gruvbox_material_background = 'hard'
 let g:gruvbox_material_better_performance = 1
 colorscheme gruvbox-material
 
-let g:airline_section_y = '%{GetCharCode()}'
+let g:airline_section_b = '%t%m%r'
+let g:airline_section_c = '%{FugitiveStatusline()} %{NearestMethodOrFunction()}'
+let g:airline_section_x = '%y %{&fileencoding?&fileencoding:&encoding}'
+let g:airline_section_y = '%b 0x%B'
+let g:airline_section_z = '%p%% %l/%L %c'
+let g:airline_powerline_fonts = 1
+
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+" airline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
+let g:airline_symbols.whitespace = 'Ξ'
 
 let mapleader=","
 
@@ -73,12 +105,13 @@ autocmd Filetype html setlocal commentstring=<!--\ %s\ -->
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'python': ['autopep8'],
-\   'sh': ['shfmt']
+\   'sh': ['shfmt'],
+\   'go': ['gofmt']
 \ }
 let g:ale_fix_on_save = 1
 
 let g:ale_linters = {
-\   'javascript': ['golangci-lint'],
+\   'go': ['golangci-lint'],
 \   'python': ['pylint'],
 \   'sh': ['shellcheck'],
 \   'yaml.ansible': ['ansible-lint']
@@ -89,8 +122,6 @@ let g:shfmt_extra_args = '-i 2'
 if executable('shfmt')
   let &l:formatprg='shfmt -i 2' . &l:shiftwidth . ' -sr -ci -s'
 endif
-
-let g:ansible_unindent_after_newline = 1
 
 let g:use_FIGlet_as_operatorfunc = 1
 
@@ -149,52 +180,6 @@ nmap <silent> ,nn :call ToggleNumbering()<CR>
 let g:wrapOn = 1
 nmap <silent> ,ww :call ToggleWrapping()<CR>
 
-" from https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vi
-function! GetCharCode()
-  "Get the output of :ascii
-  redir => ascii
-  silent! ascii
-  redir END
-
-  if match(ascii, 'NUL') != -1
-  return 'NUL'
-  endif
-
-  " Zero pad hex values
-  let nrformat = '0x%04x'
-
-  let encoding = "utf-8"
-  " let encoding = '' ? &enc : &fenc)
-
-  if encoding == 'utf-8'
-    " Zero pad with 2 zeroes in unicode files
-    let nrformat = '0x%02x'
-  endif
-
-  " Get the character and the numeric value from the return value of :ascii
-  " This matches the two first pieces of the return value, e.g.
-  " "<F>  70" => char: 'F', nr: '70'
-  let [str, char, nr; rest] = matchlist(ascii, '\v\<(.{-1,})\>\s*([0-9]+)')
-
-  " Format the numeric value
-  let hex = printf(nrformat, nr)
-  let dec = str2nr(hex, 16)
-
-  return dec . " ". hex
-endfunction
-
-" Prevent replace mode
-function s:ForbidReplace()
-  if v:insertmode isnot# 'i'
-    call feedkeys("\<Insert>", "n")
-  endif
-endfunction
-augroup ForbidReplaceMode
-  autocmd!
-  autocmd InsertEnter  * call s:ForbidReplace()
-  autocmd InsertChange * call s:ForbidReplace()
-augroup END
-
 " Checkboxen
 nnoremap <leader>ct :ChecklistToggleCheckbox<cr>
 nnoremap <leader>ce :ChecklistEnableCheckbox<cr>
@@ -204,3 +189,36 @@ vnoremap <leader>ce :ChecklistEnableCheckbox<cr>
 vnoremap <leader>cd :ChecklistDisableCheckbox<cr>
 nnoremap <leader>cc :s/^\(\s*\)/\1[ ] /g<cr>:noh<cr>
 noremap <leader>cc :s/^\(\s*\)/\1[ ] /g<cr>:noh<cr>
+
+augroup Poppy
+  autocmd!
+  autocmd CursorMoved * call PoppyInit()
+augroup end
+let g:poppy=1
+
+command! PoppyToggle :call clearmatches() | let g:poppy = -get(g:,'poppy',-1) |
+  \ exe 'au! CursorMoved *' . (g:poppy > 0 ? ' callPoppyInit()' : '')
+hi PoppyLevel1 guibg='#ea6962' guifg='#1d2021' gui=bold
+hi PoppyLevel2 guibg='#e78a4e' guifg='#1d2021' gui=bold
+hi PoppyLevel3 guibg='#d8a657' guifg='#1d2021' gui=bold
+hi PoppyLevel4 guibg='#a9b665' guifg='#1d2021' gui=bold
+hi PoppyLevel5 guibg='#89b482' guifg='#1d2021' gui=bold
+hi PoppyLevel6 guibg='#7daea3' guifg='#1d2021' gui=bold
+let g:poppyhigh = ['PoppyLevel1', 'PoppyLevel2', 'PoppyLevel3', 'PoppyLevel4', 'PoppyLevel5', 'PoppyLevel6' ]
+
+let g:highlightedyank_highlight_duration = -1
+
+let g:vista_default_executive = "coc"
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
+autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+let g:vista#renderer#enable_icon = 1
+let g:vista_fzf_preview = ['right:50%']
+let g:vista_close_on_jump  = 1
+
+nmap <silent> ,vv :Vista!! <CR>
+
+let g:coc_node_path = "/usr/bin/node"
