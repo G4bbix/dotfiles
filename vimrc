@@ -15,12 +15,13 @@ Plug 'pearofducks/ansible-vim'
 Plug 'fadein/vim-FIGlet'
 Plug 'evansalter/vim-checklist'
 Plug 'Raimondi/delimitMate'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'bounceme/poppy.vim',
+Plug 'fatih/vim-go', ", { 'do': ':GoUpdateBinaries' }
 Plug 'machakann/vim-highlightedyank',
 Plug 'liuchengxu/vista.vim',
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary' },
 Plug 'ron-rs/ron.vim',
+Plug 'G4bbix/opium.vim',
+Plug 'mhinz/vim-signify',
 
 " COC
 Plug 'neoclide/coc.nvim', {'branch': 'release'},
@@ -82,7 +83,6 @@ set shiftwidth=2
 set softtabstop=2
 set showtabline=2
 set tabstop=2
-set expandtab
 set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
 set scrolloff=5
@@ -106,16 +106,22 @@ let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'python': ['autopep8'],
 \   'sh': ['shfmt'],
-\   'go': ['gofmt']
+\   'go': ['gofmt'],
+\   'json': ["jq"],
+\   'xml': ["xmllint"],
+\   'js': ['eslint']
 \ }
-let g:ale_fix_on_save = 1
 
 let g:ale_linters = {
-\   'go': ['golangci-lint'],
-\   'python': ['pylint'],
+\   'go': ['golangci-lint', 'gopls'],
+\   'python': ['pylint', 'flake8'],
 \   'sh': ['shellcheck'],
-\   'yaml.ansible': ['ansible-lint']
+\   'yaml.ansible': ['ansible-lint'],
+\   'js': ['eslint']
 \ }
+
+nmap <silent> ,gd :ALEGoTodefinition <CR>
+nmap <silent> ,af :ALEFix <CR>
 
 " shfmt config
 let g:shfmt_extra_args = '-i 2'
@@ -124,8 +130,7 @@ if executable('shfmt')
 endif
 
 let g:use_FIGlet_as_operatorfunc = 1
-
-" Custom bindings
+nmap <silent> <leader>fig :FIGlet<CR>
 
 " Change page{up,down} to ctrl + {u,p}
 map <PageUp> <C-U>
@@ -133,19 +138,6 @@ map <PageDown> <C-D>
 imap <PageUp> <C-O><C-U>
 imap <PageDown> <C-O><C-D>
 set nostartofline
-
-" Custom functions
-function! DoPrettyXML()
-  silent %!xmllint --format -
-  endfunction
-
-function! DoAutoPep8()
-  silent %!autopep8 -aa -
-endfunction
-
-function! DoJqPrettifying()
-  silent :%!jq '.'
-endfunction
 
 function! ToggleNumbering()
   if g:numbersOn == 1
@@ -170,10 +162,6 @@ function! ToggleWrapping()
 endfunction
 
 " Keybindings for custom functions
-command! PXML call DoPrettyXML()
-command! PEP8 call DoAutoPep8()
-command! PJSON call DoJqPrettifying()
-
 let g:numbersOn = 1
 nmap <silent> ,nn :call ToggleNumbering()<CR>
 
@@ -190,21 +178,19 @@ vnoremap <leader>cd :ChecklistDisableCheckbox<cr>
 nnoremap <leader>cc :s/^\(\s*\)/\1[ ] /g<cr>:noh<cr>
 noremap <leader>cc :s/^\(\s*\)/\1[ ] /g<cr>:noh<cr>
 
-augroup Poppy
+let g:opium=1
+augroup Opium
   autocmd!
-  autocmd CursorMoved * call PoppyInit()
+  autocmd CursorMoved * call OpiumInit()
+  autocmd CursorMovedI * call OpiumInit()
 augroup end
-let g:poppy=1
-
-command! PoppyToggle :call clearmatches() | let g:poppy = -get(g:,'poppy',-1) |
-  \ exe 'au! CursorMoved *' . (g:poppy > 0 ? ' callPoppyInit()' : '')
-hi PoppyLevel1 guibg='#ea6962' guifg='#1d2021' gui=bold
-hi PoppyLevel2 guibg='#e78a4e' guifg='#1d2021' gui=bold
-hi PoppyLevel3 guibg='#d8a657' guifg='#1d2021' gui=bold
-hi PoppyLevel4 guibg='#a9b665' guifg='#1d2021' gui=bold
-hi PoppyLevel5 guibg='#89b482' guifg='#1d2021' gui=bold
-hi PoppyLevel6 guibg='#7daea3' guifg='#1d2021' gui=bold
-let g:poppyhigh = ['PoppyLevel1', 'PoppyLevel2', 'PoppyLevel3', 'PoppyLevel4', 'PoppyLevel5', 'PoppyLevel6' ]
+hi OpiumLevel1 guibg='#7daea3' guifg='#1d2021' gui=bold
+hi OpiumLevel2 guibg='#89b482' guifg='#1d2021' gui=bold
+hi OpiumLevel3 guibg='#a9b665' guifg='#1d2021' gui=bold
+hi OpiumLevel4 guibg='#d8a657' guifg='#1d2021' gui=bold
+hi OpiumLevel5 guibg='#d3869b' guifg='#1d2021' gui=bold
+hi OpiumLevel6 guibg='#d4be98' guifg='#1d2021' gui=bold
+let g:opiumhigh = ['OpiumLevel1', 'OpiumLevel2', 'OpiumLevel3', 'OpiumLevel4', 'OpiumLevel5', 'OpiumLevel6' ]
 
 let g:highlightedyank_highlight_duration = -1
 
@@ -221,4 +207,30 @@ let g:vista_close_on_jump  = 1
 
 nmap <silent> ,vv :Vista!! <CR>
 
+set updatetime=300
+set signcolumn=yes
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+	\ coc#pum#visible() ? coc#_select_confirm() :
+	\ CheckBackspace() ? "\<Tab>" : coc#refresh()
+
+inoremap <silent><expr> <Esc>
+	\ coc#pum#visible() ? coc#pum#stop() : "\<Esc>" 
+
 let g:coc_node_path = "/usr/bin/node"
+
+" Prevent Replace Mode
+imap <Insert> <Nop>
+inoremap <S-Insert> <Insert>
+
+" Copy to selection to clipboard
+function! Xclip() range
+  echo system('sed -n '.a:firstline.','.a:lastline.'p '.expand('%').' | xclip -selection clipboard')
+endfunction
+
+vnoremap <C-c> :call Xclip()<cr>
