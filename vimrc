@@ -31,7 +31,7 @@ call plug#end()
 
 " Colors
 if has('termguicolors')
-  set termguicolors
+	set termguicolors
 endif
 set background=dark
 let g:airline_theme = 'gruvbox_material'
@@ -47,7 +47,7 @@ let g:airline_section_z = '%p%% %l/%L %c'
 let g:airline_powerline_fonts = 1
 
 if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
+	let g:airline_symbols = {}
 endif
 
 " airline symbols
@@ -109,6 +109,7 @@ let g:ale_fixers = {
 \   'go': ['gofmt'],
 \   'json': ["jq"],
 \   'xml': ["xmllint"],
+\   'yaml.ansible': ['ansible-lint'],
 \   'js': ['eslint']
 \ }
 
@@ -224,6 +225,10 @@ inoremap <silent><expr> <Esc>
 
 let g:coc_node_path = "/usr/bin/node"
 
+let g:coc_filetype_map = {
+\		'yaml.ansible': 'ansible',
+\	}
+
 " Prevent Replace Mode
 imap <Insert> <Nop>
 inoremap <S-Insert> <Insert>
@@ -234,3 +239,5 @@ function! Xclip() range
 endfunction
 
 vnoremap <C-c> :call Xclip()<cr>
+
+noremap <silent>ii :<C-u>cal <Sid>HandleTextObjectMapping(0, 1, 1, [line("'<"), line("'>"), col("'<"), col("'>")])<CR><Esc>gv
