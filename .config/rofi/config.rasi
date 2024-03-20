@@ -1,0 +1,4 @@
+configuration {
+	font: "mono 28";
+}
+@theme "/usr/share/rofi/themes/gruvbox-dark-hard.rasi"
