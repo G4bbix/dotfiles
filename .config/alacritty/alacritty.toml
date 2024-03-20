@@ -1,0 +1,11 @@
+[terminal]
+osc52 = "CopyPaste"
+
+[font]
+size = 12
+
+[font.normal]
+family = "DejaVuSansM Nerd Font"
+
+[window.padding]
+x = 5
