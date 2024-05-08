@@ -6,6 +6,7 @@ inject_delay: 5
 evdev_modifier_delay: 20
 toggle_key: "OFF"
 keyboard_layout:
-  layout: "de"
-  model: pc105
-  variant: nodeadkeys
+  layout: "ch"
+  model: pc104
+  variant: de_nodeadkeys
+  keymap: sg
