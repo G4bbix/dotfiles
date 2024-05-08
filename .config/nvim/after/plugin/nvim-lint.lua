@@ -2,13 +2,15 @@ local lint = require("lint")
 
 lint.linters_by_ft = {
 	javascript = { "eslint" },
-	["yaml.ansible"]  = { "ansible_lint" },
-	sh = { "Shellcheck" },
+	["yaml.ansible"] = { "ansible_lint" },
+	sh = { "shellcheck" },
 	json = { "jsonlint" },
 	yaml = { "yamllint" },
 	dockerfile = { "hadolint" },
-	python =  { "ruff", "pylint" },
-	go = { "golangcilint"}
+	python = { "ruff", "pylint" },
+	go = { "golangcilint" },
+	lua = { "luacheck" },
+	vim = { "vint" },
 }
 
 local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
