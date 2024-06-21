@@ -110,8 +110,9 @@ source $ZSH/oh-my-zsh.sh
 
 # MAUNAL GW SETTINGS
 #
-export VISUAL=vim
+export VISUAL=nvim
 export EDITOR="$VISUAL"
+export GIT_EDITOR="$VISUAL"
 
 set bell-style none
 bindkey '^R' history-incremental-search-backward
@@ -122,7 +123,7 @@ alias l='lsd -la'
 alias lt='lsd -latr'
 alias lh='lsd -lah'
 alias md='mkdir -p'
-alias vi='vim'
+alias vi='nvim'
 alias t="LANG=de_DE@euro /usr/bin/gnome-terminal"
 alias s="TERM=xterm ssh root@sophie.intra.bpm.ch"
 alias hex2dec="bxc -B 16 -b 10"
