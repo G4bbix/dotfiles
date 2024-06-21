@@ -159,3 +159,16 @@ matches:
         type: date
         params:
           format: "%d.%m.%Y"
+  - trigger: :ss
+    replace: grep snap -i /usr/local/etc/system/manager/save.conf |  cut -d = -f2 | paste -sd+ | bc
+  - trigger: :uuid
+    replace: "{{ output }}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: uuidgen
+  - trigger: :du
+    replace: 'du -sB 1 *  | sort -n | while read size path ; do echo "$(numfmt --to=iec <<< "$size") $path" ; done'
+  - regex: kt2t(?P<tape>.*);
+    replace: ps h -s "$(pgrep -f "/bin/sh -c /usr/local/system/jobs/manager/tar2tape-{{ tape }}.sh")" -o pid  | xargs kill
