@@ -33,7 +33,14 @@ require('telescope').setup {
 		['ui-select'] = {
 			require('telescope.themes').get_dropdown(),
 		},
-	},
+		undo = {
+			side_by_side = true,
+			layout_strategy = "vertical",
+			layout_config = {
+				preview_height = 0.8,
+			},
+		},
+	}
 }
 
 -- Enable telescope extensions, if they are installed
@@ -75,3 +82,6 @@ end, { desc = '[S]earch [/] in Open Files' })
 vim.keymap.set('n', '<leader>sn', function()
 	builtin.find_files { cwd = vim.fn.stdpath 'config' }
 end, { desc = '[S]earch [N]eovim files' })
+
+
+vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
