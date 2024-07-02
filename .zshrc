@@ -132,7 +132,14 @@ alias spotify="screen -d -m spotify --force-device-scale-factor=1.5"
 alias teams="teams -disable-features=HardwareMediaKeyHandling"
 alias pylint="pylint --rcfile=~/.config/pylintrc"
 
-eval "$(mcfly init zsh)"
+# BAT
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+batdiff() {
+    git diff --name-only --relative --diff-filter=d | xargs bat --diff
+}
+BAT_THEME="gruvbox-dark"
+
+# eval "$(mcfly init zsh)"
 
 SSH_AUTH_SOCK="$HOME/.ssh/ssh-agent.socket"
 export SSH_AUTH_SOCK
@@ -143,3 +150,6 @@ export SSH_AGENT_PID
 source ~/.p10k.zsh
 
 export LS_COLORS="$(vivid generate gruvbox-dark-hard)"
+export ATUIN_NOBIND="true"
+eval "$(atuin init zsh)"
+bindkey '^r' atuin-search
