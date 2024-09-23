@@ -171,6 +171,7 @@ require("mason").setup()
 	"gopls",
 	"eslint",
 	"eslint_d",
+	"jsonlint",
 	"luacheck",
 	"shellcheck",
 	"shfmt",
