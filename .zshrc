@@ -128,18 +128,21 @@ alias t="LANG=de_DE@euro /usr/bin/gnome-terminal"
 alias s="TERM=xterm ssh root@sophie.intra.bpm.ch"
 alias hex2dec="bxc -B 16 -b 10"
 alias dec2hex="bxc -B 10 -b 16"
-alias spotify="screen -d -m spotify --force-device-scale-factor=1.5"
-alias teams="teams -disable-features=HardwareMediaKeyHandling"
 alias pylint="pylint --rcfile=~/.config/pylintrc"
+alias vimdiff="nvim -d"
+alias "git diff"="git difftool"
 
 # BAT
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+# export MANPAGER="sh -c 'col -bx | bat -l man -pp'"
+export MANPAGER="sh -c 'ansi2txt | col -bx | bat -l man -p'"
+MANROFFOPT="-c"
+
 batdiff() {
     git diff --name-only --relative --diff-filter=d | xargs bat --diff
 }
 BAT_THEME="gruvbox-dark"
 
-# eval "$(mcfly init zsh)"
+eval "$(mcfly init zsh)"
 
 SSH_AUTH_SOCK="$HOME/.ssh/ssh-agent.socket"
 export SSH_AUTH_SOCK
@@ -150,6 +153,3 @@ export SSH_AGENT_PID
 source ~/.p10k.zsh
 
 export LS_COLORS="$(vivid generate gruvbox-dark-hard)"
-export ATUIN_NOBIND="true"
-eval "$(atuin init zsh)"
-bindkey '^r' atuin-search
