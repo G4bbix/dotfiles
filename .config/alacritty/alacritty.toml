@@ -2,7 +2,7 @@
 osc52 = "CopyPaste"
 
 [font]
-size = 14
+size = 15
 
 [font.normal]
 family = "DejaVuSansM Nerd Font"
