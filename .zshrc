@@ -130,6 +130,7 @@ alias hex2dec="bxc -B 16 -b 10"
 alias dec2hex="bxc -B 10 -b 16"
 alias pylint="pylint --rcfile=~/.config/pylintrc"
 alias vimdiff="nvim -d"
+alias wipescreen="screen -ls | grep "^\s"  | cut -d . -f1 | tr -d \\t | while read -r i ; do screen -wipe "$i" ; done"
 alias "git diff"="git difftool"
 
 # BAT
