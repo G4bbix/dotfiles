@@ -124,10 +124,14 @@ require("lazy").setup({
 		"G4bbix/cherry_nvim",
 		priority = 0,
 	},
-	{ "nvim-telescope/telescope.nvim",
+	{
+		"nvim-telescope/telescope.nvim",
 		dependencies = {
-				"nvim-lua/plenary.nvim",
-				"debugloop/telescope-undo.nvim",
-		}
-	}
+			"nvim-lua/plenary.nvim",
+			"debugloop/telescope-undo.nvim",
+		},
+	},
+	{ "mfussenegger/nvim-dap" },
+	{ "rcarriga/nvim-dap-ui" },
+	{'akinsho/toggleterm.nvim'}
 })
