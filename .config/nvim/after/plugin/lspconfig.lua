@@ -144,7 +144,7 @@ local servers = {
 	 },
 		},
 	},
-	ruff_lsp = {},
+	ruff = {},
 	pylint = {},
 	pylsp = {},
 	yamlls = {},
@@ -162,7 +162,9 @@ require("mason").setup()
 -- for you, so that they are available from within Neovim.
  local ensure_installed = vim.tbl_keys(servers or {})
  vim.list_extend(ensure_installed, {
+	"autoflake",
 	"stylua",
+	"debugpy",
 	"pylint",
 	"flake8",
 	"autopep8",
@@ -172,6 +174,7 @@ require("mason").setup()
 	"eslint",
 	"eslint_d",
 	"jsonlint",
+	"jq",
 	"luacheck",
 	"shellcheck",
 	"shfmt",
@@ -237,7 +240,7 @@ end
  -- Configure `ruff-lsp`.
  -- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruff_lsp
  -- For the default config, along with instructions on how to customize the settings
- require("lspconfig").ruff_lsp.setup({
+ require("lspconfig").ruff.setup({
 	on_attach = on_attach,
 	init_options = {
 		settings = {
