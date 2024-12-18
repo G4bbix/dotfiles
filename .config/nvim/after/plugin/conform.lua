@@ -5,8 +5,8 @@ require("conform").setup({
     python = { "ruff_format", "ruff_fix", "autopep8", "autoflake" },
 		sh = { "shfmt" },
     javascript = { "eslint_d" },
-    json =  { "fixjson" },
+    json =  { "fixjson", "jq" },
     yaml = { "yamlfmt", "yamlfix" },
-    ["yaml.ansible"] = { "yamlfmt", "yamlfix" },  
+    ["yaml.ansible"] = { "yamlfmt", "yamlfix" },
   },
 })
