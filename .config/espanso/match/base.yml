@@ -93,6 +93,8 @@ matches:
     replace: "/usr/local/system/scripts/backupReport/backupReport.sh -o html -f /srv/www/htdocs/backups/ -k 7 -s"
   - trigger: ":lsm"
     replace: "/var/log/system/manager/tar2tape/"
+  - trigger: ":lss"
+    replace: "/var/log/system/manager/save/"
   - trigger: ";st"
     replace: "spotify ; teams"
   - regex: ":ndz(?P<person>.*);"
@@ -168,7 +170,5 @@ matches:
         type: shell
         params:
           cmd: uuidgen
-  - trigger: :du
-    replace: 'du -sB 1 *  | sort -n | while read size path ; do echo "$(numfmt --to=iec <<< "$size") $path" ; done'
   - regex: kt2t(?P<tape>.*);
     replace: ps h -s "$(pgrep -f "/bin/sh -c /usr/local/system/jobs/manager/tar2tape-{{ tape }}.sh")" -o pid  | xargs kill
