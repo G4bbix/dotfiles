@@ -164,6 +164,7 @@ require("mason").setup()
  vim.list_extend(ensure_installed, {
 	"autoflake",
 	"stylua",
+	"clangd",
 	"debugpy",
 	"pylint",
 	"flake8",
