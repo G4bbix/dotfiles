@@ -2,10 +2,15 @@
 osc52 = "CopyPaste"
 
 [font]
-size = 15
+size = 13
 
 [font.normal]
 family = "DejaVuSansM Nerd Font"
 
 [window.padding]
 x = 5
+
+[keyboard]
+bindings = [
+{	key = "Insert",	mods = "Shift",	action = "Paste" },
+]

@@ -132,6 +132,8 @@ alias pylint="pylint --rcfile=~/.config/pylintrc"
 alias vimdiff="nvim -d"
 alias wipescreen="screen -ls | grep "^\s"  | cut -d . -f1 | tr -d \\t | while read -r i ; do screen -wipe "$i" ; done"
 alias "git diff"="git difftool"
+alias "ip"="ip --color=auto"
+
 
 # BAT
 # export MANPAGER="sh -c 'col -bx | bat -l man -pp'"
