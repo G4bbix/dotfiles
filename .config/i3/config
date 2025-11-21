@@ -174,7 +174,6 @@ bar {
   status_command bumblebee-status -m \
   network_traffic \
   playerctl \
-  nvidiagpu \
   load \
   memory \
   disk \
@@ -184,7 +183,6 @@ bar {
   pasource \
   datetime \
   -p \
-  nvidiagpu.format=' {temp}°C {mem_used}/{mem_total} MiB' \
   nic.states=^down \
   nic.format='{intf} {ip} {ssid} {strength}' \
   datetime.format="%a %d %b %H:%M:%S" \
@@ -246,6 +244,6 @@ bindsym --release Super_R exec "pactl set-source-mute @DEFAULT_SOURCE@ on"
 bindsym $mod+Print exec "flameshot gui --path $HOME/Pictures/screenshots"
 
 # clipmenu
-bindsym $mod+g exec --no-startup-id CM_LAUNCHER=rofi clipmenu -i
+bindsym $mod+g exec --no-startup-id CM_LAUNCHER=rofi clipmenu -i 
 
-bindsym $mod+t exec --no-startup-id /home/winkler/dev/sh/jira-issue-fetcher/jira-issues-fetcher.sh
+bindsym $mod+t exec --no-startup-id jira-issue-fetcher.sh
