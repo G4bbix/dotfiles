@@ -95,6 +95,8 @@ matches:
     replace: "/var/log/system/manager/tar2tape/"
   - trigger: ":lss"
     replace: "/var/log/system/manager/save/"
+  - trigger: ":uls"
+    replace: "/usr/local/etc/system/"
   - trigger: ";st"
     replace: "spotify ; teams"
   - regex: ":ndz(?P<person>.*);"
