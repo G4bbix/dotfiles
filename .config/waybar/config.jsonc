@@ -2,15 +2,14 @@
   "reload_style_on_change": true,
   "layer": "top",
   "position": "top",
-  "spacing": 0,
+  "spacing": 10,
   "height": 30,
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["clock"],
   "modules-right": [
-    "bluetooth",
     "network",
     "pulseaudio",
-    "cpu",
+    // "cpu",
     "battery"
   ],
   "hyprland/workspaces": {
@@ -48,30 +47,18 @@
     "tooltip": false
   },
   "network": {
-    "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
-    "format": "{icon}",
-    "format-wifi": "{icon}",
-    "format-ethernet": "󰀂",
-    "format-disconnected": "󰤮",
-    "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
-    "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
-    "tooltip-format-disconnected": "Disconnected",
+    "format-wifi": "󰤨  {ipaddr} {essid} ⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "format-ethernet": "󰀂  {ipaddr} ⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "format-disconnected": "Disconnected",
     "interval": 3,
-    "spacing": 1,
-    "on-click": "omarchy-launch-wifi"
+    "spacing": 1
   },
   "battery": {
     "format": "{capacity}% {icon}",
-    "format-discharging": "{icon}",
-    "format-charging": "{icon}",
-    "format-plugged": "",
-    "format-icons": {
-      "charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
-      "default": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
-    },
-    "format-full": "󰂅",
-    "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
-    "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
+    "format-plugged": "  {capacity}%",
+    "format-full": "󰂅 {power:>1.0f}W↓ {capacity}%",
+    "format-discharging": "{power:>1.0f}W↓ {capacity}%",
+    "format-charging": "{power:>1.0f}W↑ {capacity}%",
     "interval": 5,
     "on-click": "omarchy-menu power",
     "states": {
@@ -87,10 +74,9 @@
     "on-click": "blueberry"
   },
   "pulseaudio": {
-    "format": "{icon}",
+    "format": "{icon}  {volume}%",
     "on-click": "xdg-terminal-exec --app-id=com.omarchy.Wiremix -e wiremix",
     "on-click-right": "pamixer -t",
-    "tooltip-format": "Playing at {volume}%",
     "scroll-step": 5,
     "format-muted": "",
     "format-icons": {
