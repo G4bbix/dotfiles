@@ -146,7 +146,7 @@ local servers = {
 	},
 	ruff = {},
 	pylint = {},
-	pylsp = {},
+	-- pylsp = {},
 	yamlls = {},
 }
 
@@ -196,7 +196,7 @@ require("mason").setup()
 		 -- by the server configuration above. Useful when disabling
 		 -- certain features of an LSP (for example, turning off formatting for tsserver)
 		 server.capabilities = vim.tbl_deep_extend("force", {}, capabilities or {}, server.capabilities or {})
-		 require("lspconfig")[server_name].setup(server)
+		 vim.lsp.config[server_name].setup(server)
 	 end,
 	},
  })
@@ -241,7 +241,7 @@ end
  -- Configure `ruff-lsp`.
  -- See: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#ruff_lsp
  -- For the default config, along with instructions on how to customize the settings
- require("lspconfig").ruff.setup({
+vim.lsp.config("ruff", {
 	on_attach = on_attach,
 	init_options = {
 		settings = {
@@ -251,34 +251,33 @@ end
 	},
  })
 
-require("lspconfig").pylsp.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-	settings = {
-		formatCommand = { "black" },
-		pylsp = {
-	 plugins = {
-		 pyls_flake8 = { enabled = true },
-		 pylint = { enabled = true, args = {} },
-		 black = { enabled = true },
-		 isort = { enabled = true },
-		 pyls_mypy = {
-		enabled = false,
-		--live_mode = true,
-		 },
-	 },
-		},
-	},
-})
+--vim.lsp.config.pylsp.setup({
+--	on_attach = on_attach,
+--	capabilities = capabilities,
+--	settings = {
+--		formatCommand = { "black" },
+--		pylsp = {
+--	 plugins = {
+--		 pyls_flake8 = { enabled = true },
+--		 pylint = { enabled = true, args = {} },
+--		 black = { enabled = true },
+--		 isort = { enabled = true },
+--		 pyls_mypy = {
+--		enabled = false,
+--		--live_mode = true,
+--		 },
+--	 },
+--		},
+--	},
+--})
 
-local lspconfig = require("lspconfig")
+local lspconfig = vim.lsp.config
 local configs = require("lspconfig/configs")
 
 if not configs.golangcilsp then
 	configs.golangcilsp = {
 		default_config = {
 	 cmd = { "golangci-lint-langserver" },
-	 root_dir = lspconfig.util.root_pattern(".git", "go.mod"),
 	 init_options = {
 		 command = {
 		"golangci-lint",
@@ -294,6 +293,6 @@ if not configs.golangcilsp then
 		},
 	}
 end
-lspconfig.golangci_lint_ls.setup({
+vim.lsp.config("golangci_lint_ls", {
 	filetypes = { "go", "gomod" },
 })
