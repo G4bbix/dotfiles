@@ -37,7 +37,6 @@ require("lazy").setup({
 		end,
 	},
 	{ "evansalter/vim-checklist" },
-	{ "Raimondi/delimitMate" },
 	-- {"fatih/vim-go", build=":GoUpdateBinaries"},
 	{ "machakann/vim-highlightedyank" },
 	{ "ron-rs/ron.vim" },
